@@ -8,9 +8,11 @@ import ImagePopup from './ImagePopup';
 
 function App() {
 
-	const[isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
-	const[isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
-	const[isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
+	const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
+	const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
+	const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
+	const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false)
+	const [selectedCard, setSelectedCard] = React.useState({})
 
     function handleEditAvatarClick() {
         setIsEditAvatarPopupOpen(true)
@@ -24,11 +26,17 @@ function App() {
         setIsAddPlacePopupOpen(true)
     }
 
+    function handleCardClick(card) {
+        setIsImagePopupOpen(true)
+        setSelectedCard(card)
+    }
+
 	function closeAllPopups() {
 		setIsEditProfilePopupOpen(false)
 		setIsAddPlacePopupOpen(false)
 		setIsEditAvatarPopupOpen(false)
-	  }
+		setIsImagePopupOpen(false)
+	}
 
 	return (
 		<div className="page">
@@ -38,6 +46,7 @@ function App() {
 				onEditProfile={handleEditProfileClick}
 				onAddPlace={handleAddPlaceClick}
 				onEditAvatar={handleEditAvatarClick}
+				onCardClick={handleCardClick}
 			/>
 
 			<Footer />
@@ -50,10 +59,10 @@ function App() {
 				isOpen={isEditProfilePopupOpen}
 				onClose={closeAllPopups}
 			>
-				<input type="text" id="name-input" className="popup__item popup__item_el_name" name="form-name" placeholder="Имя" required minlength="2" maxlength="40" />
+				<input type="text" id="name-input" className="popup__item popup__item_el_name" name="form-name" placeholder="Имя" required minLength="2" maxLength="40" />
 				<span className="name-input-error popup__item-error popup__item-error_first"></span>
 
-				<input type="text" id="description-input" className="popup__item popup__item_el_description" name="form-description" placeholder="О себе" required minlength="2" maxlength="200" />
+				<input type="text" id="description-input" className="popup__item popup__item_el_description" name="form-description" placeholder="О себе" required minLength="2" maxLength="200" />
 				<span className="description-input-error popup__item-error popup__item-error_second"></span>
 			</PopupWithForm>
 
@@ -65,20 +74,12 @@ function App() {
 				isOpen={isAddPlacePopupOpen}
 				onClose={closeAllPopups}
 			>
-				<input type="text" id="place-input" className="popup__item popup__item_el_name" name="form-name" placeholder="Название" required minlength="2" maxlength="30" />
+				<input type="text" id="place-input" className="popup__item popup__item_el_name" name="form-name" placeholder="Название" required minLength="2" maxLength="30" />
 				<span className="place-input-error popup__item-error popup__item-error_first"></span>
 
 				<input type="url" id="place-url-input" className="popup__item popup__item_el_description" name="form-description" placeholder="Ссылка на картинку" required />
 				<span className="place-url-input-error popup__item-error popup__item-error_second"></span>
 			</PopupWithForm>
-
-			{/* Попап удаления карточки
-			<PopupWithForm
-				name='delete'
-				title='Вы уверены?'
-				buttonText='Да'
-			>
-			</PopupWithForm> */}
 
 			{/* Попап обновления аватара */}
 			<PopupWithForm
@@ -101,6 +102,12 @@ function App() {
 				</div>
 			</div>
 
+			<ImagePopup
+            card={selectedCard}
+			isOpen={isImagePopupOpen}
+			onClose={closeAllPopups}
+			/>
+
 
 			{/*<div className="popup popup_type_delete">
 				<div className="popup__container">
@@ -110,20 +117,6 @@ function App() {
 				</div>
 			</div>*/}
 
-			<template className="cards-template">
-				<li className="element">
-					<img className="element__photo" />
-
-					<button className="element__delete" type="button"></button>
-					<div className="element__wrapper">
-						<h2 className="element__title"></h2>
-						<div className="element__like-wrapper">
-							<button className="element__like" type="button"></button>
-							<span className="element__like-count">0</span>
-						</div>
-					</div>
-				</li>
-			</template>
 		</div>
   );
 }
