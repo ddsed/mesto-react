@@ -18,6 +18,7 @@ function App() {
 	const [currentUser, setCurrentUser] = useState({ name: '', about: '', avatar: '' });
 	const [cards, setCards] = useState([]);
 
+	// API изначальных данных юзера и карточек
 	useEffect(() => {
         api.getUserInfoApi()
         .then((user) => {
@@ -36,6 +37,7 @@ function App() {
         });
 	}, []);
 
+	//Лайк карточек
 	function handleCardLike(card) {
 		const isLiked = card.likes.some(i => i._id === currentUser._id);
 		
@@ -48,6 +50,19 @@ function App() {
         });
 	} 
 
+	//Удаление карточки
+	function handleCardDelete(card) {
+		api.deleteCardApi(card._id)
+        .then(() => {
+			setCards((state) => state.filter((el) => el._id !== card._id));
+			closeAllPopups();
+		  })
+		  .catch((err) => {
+			console.error(err);
+		  });
+	}
+
+	//Попапы
     function handleEditAvatarClick() {
         setIsEditAvatarPopupOpen(true)
     }
@@ -83,6 +98,7 @@ function App() {
 					onEditAvatar={handleEditAvatarClick}
 					onCardClick={handleCardClick}
 					onCardLike={handleCardLike}
+					onCardDelete={handleCardDelete}
 				/>
 
 				<Footer />
