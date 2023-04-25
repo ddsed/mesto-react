@@ -32,8 +32,8 @@ class Api {
           method: "PATCH",
           headers: this._headers,
           body: JSON.stringify({
-            name: data['form-name'],
-            about: data['form-description']
+            name: data.name, 
+            about: data.about
           }),
         })
         .then(this._checkPromiseStatus);
@@ -84,7 +84,7 @@ class Api {
         method: "PATCH",
         headers: this._headers,
         body: JSON.stringify({
-          avatar: avatar['form-description']
+          avatar: avatar.avatar
         }),
       })
       .then(this._checkPromiseStatus);

@@ -6,6 +6,8 @@ import Main from './Main';
 import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
+import EditProfilePopup from './EditProfilePopup';
+import EditAvatarPopup from './EditAvatarPopup';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 function App() {
@@ -62,7 +64,33 @@ function App() {
 		  });
 	}
 
-	//Попапы
+	//Обновление данных юзера
+	function handleUpdateUser(data) {
+		api
+		  .editUserInfo(data)
+		  .then((newData) => {
+			setCurrentUser(newData);
+			closeAllPopups();
+		  })
+		  .catch((err) => {
+			console.error(err);
+		  });
+	}
+
+	//Обновление данных аватара
+	function handleUpdateAvatar(data) {
+		api
+		  .changeAvatar(data)
+		  .then((newData) => {
+			setCurrentUser(newData);
+			closeAllPopups();
+		  })
+		  .catch((err) => {
+			console.error(err);
+		  });
+	  }
+
+	//Попапы открытие и закрытие
     function handleEditAvatarClick() {
         setIsEditAvatarPopupOpen(true)
     }
@@ -104,19 +132,8 @@ function App() {
 				<Footer />
 
 				{/* Попап редактирования профиля */}
-				<PopupWithForm
-					name='edit-profile'
-					title='Редактировать профиль'
-					buttonText='Сохранить'
-					isOpen={isEditProfilePopupOpen}
-					onClose={closeAllPopups}
-				>
-					<input type="text" id="name-input" className="popup__item popup__item_el_name" name="form-name" placeholder="Имя" required minLength="2" maxLength="40" />
-					<span className="name-input-error popup__item-error popup__item-error_first"></span>
 
-					<input type="text" id="description-input" className="popup__item popup__item_el_description" name="form-description" placeholder="О себе" required minLength="2" maxLength="200" />
-					<span className="description-input-error popup__item-error popup__item-error_second"></span>
-				</PopupWithForm>
+				<EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
 
 				{/* Попап добавления карточки */}
 				<PopupWithForm
@@ -134,7 +151,9 @@ function App() {
 				</PopupWithForm>
 
 				{/* Попап обновления аватара */}
-				<PopupWithForm
+				<EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
+				
+				{/*<PopupWithForm
 					name='avatar'
 					title='Обновить аватар'
 					buttonText='Сохранить'
@@ -143,7 +162,7 @@ function App() {
 				>
 					<input type="url" id="avatar-input" className="popup__item popup__item_el_description popup__item_type_avatar" name="form-description" placeholder="Ссылка на аватар" required />
 					<span className="avatar-input-error popup__item-error"></span>
-				</PopupWithForm>
+				</PopupWithForm>*/}
 
 
 				<div className="popup popup_type_image">
