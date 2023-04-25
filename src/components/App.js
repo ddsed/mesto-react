@@ -4,8 +4,8 @@ import '../index.css';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
-import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
+import AddPlacePopup from './AddPlacePopup';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
@@ -88,7 +88,20 @@ function App() {
 		  .catch((err) => {
 			console.error(err);
 		  });
-	  }
+	}
+
+	//Добавление новой карточки
+	function handleAddPlaceSubmit(name, link) {
+		api
+		.createNewCard(name, link)
+		.then((newCard) => {
+		  setCards([newCard, ...cards]);
+		  closeAllPopups();
+		})
+		.catch((err) => {
+		  console.error(err);
+		});
+	}
 
 	//Попапы открытие и закрытие
     function handleEditAvatarClick() {
@@ -132,53 +145,20 @@ function App() {
 				<Footer />
 
 				{/* Попап редактирования профиля */}
-
 				<EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
 
 				{/* Попап добавления карточки */}
-				<PopupWithForm
-					name='add-card'
-					title='Новое место'
-					buttonText='Создать'
-					isOpen={isAddPlacePopupOpen}
-					onClose={closeAllPopups}
-				>
-					<input type="text" id="place-input" className="popup__item popup__item_el_name" name="form-name" placeholder="Название" required minLength="2" maxLength="30" />
-					<span className="place-input-error popup__item-error popup__item-error_first"></span>
-
-					<input type="url" id="place-url-input" className="popup__item popup__item_el_description" name="form-description" placeholder="Ссылка на картинку" required />
-					<span className="place-url-input-error popup__item-error popup__item-error_second"></span>
-				</PopupWithForm>
+				<AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddCard={handleAddPlaceSubmit}/>
 
 				{/* Попап обновления аватара */}
 				<EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
-				
-				{/*<PopupWithForm
-					name='avatar'
-					title='Обновить аватар'
-					buttonText='Сохранить'
-					isOpen={isEditAvatarPopupOpen}
-					onClose={closeAllPopups}
-				>
-					<input type="url" id="avatar-input" className="popup__item popup__item_el_description popup__item_type_avatar" name="form-description" placeholder="Ссылка на аватар" required />
-					<span className="avatar-input-error popup__item-error"></span>
-				</PopupWithForm>*/}
 
-
-				<div className="popup popup_type_image">
-					<div className="popup__content">
-						<button className="popup__close-button button" type="button"></button>
-						<img className="popup__photo" />
-						<h2 className="popup__title popup__title_type_image"></h2>
-					</div>
-				</div>
-
+				{/*Попап большой картинки*/}
 				<ImagePopup
 				card={selectedCard}
 				isOpen={isImagePopupOpen}
 				onClose={closeAllPopups}
 				/>
-
 
 				{/*<div className="popup popup_type_delete">
 					<div className="popup__container">

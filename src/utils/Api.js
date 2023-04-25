@@ -44,8 +44,8 @@ class Api {
             method: "POST",
             headers: this._headers,
             body: JSON.stringify({
-                name: data['form-name'],
-                link: data['form-description']
+                name: data.name,
+                link: data.link 
             }),
         })
         .then(this._checkPromiseStatus);
