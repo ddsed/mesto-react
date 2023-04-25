@@ -11,8 +11,8 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick, cards, onC
             <section className="profile">
                 
                 <img className="profile__avatar" src={currentUser.avatar} alt="Фото" />
-                <div className="profile__avatar-container">	
-                    <button className="profile__avatar-button button" type="button" onClick={onEditAvatar}></button>
+                <div className="profile__avatar-container" onClick={onEditAvatar}>	
+                    <button className="profile__avatar-button button" type="button" ></button>
                 </div>
 
                 <div className="profile__info">
@@ -30,9 +30,6 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick, cards, onC
                         <Card
                         card={card}
                         key={card._id}
-                        likes={card.likes}
-                        name={card.name}
-                        link={card.link}
                         onCardClick={onCardClick}
                         onCardLike={onCardLike}
                         onCardDelete={onCardDelete}

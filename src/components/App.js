@@ -129,8 +129,8 @@ function App() {
 	}
 
 	return (
-		<div className="page">
-			<CurrentUserContext.Provider value={currentUser}>
+		<CurrentUserContext.Provider value={currentUser}>
+			<div className="page">
 				<Header />
 				<Main
 					cards={cards}
@@ -167,8 +167,8 @@ function App() {
 						<button className="popup__submit-button popup__submit-button_type_confirm-delete" type="submit">Да</button>
 					</div>
 				</div>*/}
-			</CurrentUserContext.Provider>
-		</div>
+			</div>
+		</CurrentUserContext.Provider>
   );
 }
 
